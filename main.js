@@ -11,27 +11,42 @@ const jobTypes = {
 
 // Your code will go here
 
-class CrewMemeber {
-	constructor(name, job, skill, ship) {
+class CrewMember {
+	constructor(name, job, skill) {
 		this.membName = name;
 		this.jobType = job;
 		this.specialSkill = skill;
-		this.membShip = ship;
+		this.ship = [];
+	}
+	enterShip(ship) {
+		this.ship = ship;
+		ship.crew.push(this);
 	}
 }
-
-const crewMember1 = new CrewMemeber("Rick Martinez", "pilot", "chemistry", "");
+const crewMember1 = new CrewMember("Rick Martinez", "pilot", "chemistry");
 const crewMember2 = new CrewMember("Commander Lewis", "commander", "geology");
 
 class Ship {
-	constructor(ship, type, ability) {
-		this.shipName = ship;
+	constructor(name, type, ability) {
+		this.shipName = name;
 		this.shipType = type;
 		this.shipAbility = ability;
+		this.crew = [];
+	}
+	missionStatement() {
+		// null does not work. test gives a hint with .length
+		if (this.crew.length === 0) {
+			return "Can't perform a mission yet.";
+		} else {
+			return this.ability;
+		}
 	}
 }
+
 let mav = new Ship("Mars Ascent Vehicle", "MAV", "Ascend into low orbit");
 let hermes = new Ship("Hermes", "Main Ship", "Interplanetary Space Travel");
+
+//     Make sure Crew Members can enter Ships
 
 // Begin by reading the tests and building a function that will full each one.
 // As you build, you might not have to build them in order, maybe you do...
@@ -81,14 +96,14 @@ if (typeof describe === "function") {
 				"commander",
 				"geology"
 			);
-			assert.equal(mav.missionStatement(), "Can't perform a mission yet.");
+			assert.equal(mav.missionStatement(), "Can't perform a mission yet."); // no crew member, no mission
 			assert.equal(hermes.missionStatement(), "Can't perform a mission yet.");
 
 			crewMember1.enterShip(mav);
-			assert.equal(mav.missionStatement(), "Ascend into low orbit");
+			assert.equal(mav.missionStatement(), "Ascend into low orbit"); //ability
 
 			crewMember2.enterShip(hermes);
-			assert.equal(hermes.missionStatement(), "Interplanetary Space Travel");
+			assert.equal(hermes.missionStatement(), "Interplanetary Space Travel"); //ability
 		});
 	});
 }
