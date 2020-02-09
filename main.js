@@ -13,24 +13,29 @@ const jobTypes = {
 
 class CrewMember {
 	constructor(name, job, skill) {
-		this.membName = name;
-		this.jobType = job;
+		this.name = name;
+		this.job = job;
 		this.specialSkill = skill;
-		this.ship = [];
+		this.ship = null;
 	}
-	enterShip(ship) {
-		this.ship = ship;
-		ship.crew.push(this);
+
+	enterShip(n) {
+		this.ship = n; // assigned this.ship to n
+		n.crew.push(this); //will push the crew member being assigned a ship crewMember1.enterShip(mav) to Ship.crew.  Push method pushes to an array; thus, the empty array for this.crew = []
+		// console.log(this);  // have a question about [Circluar] reference.
 	}
 }
+
 const crewMember1 = new CrewMember("Rick Martinez", "pilot", "chemistry");
 const crewMember2 = new CrewMember("Commander Lewis", "commander", "geology");
 
+// console.log(crewMember1.name, crewMember1.specialSkill);
+
 class Ship {
-	constructor(name, type, ability) {
-		this.shipName = name;
-		this.shipType = type;
-		this.shipAbility = ability;
+	constructor(shipName, shipType, shipAbility) {
+		this.name = shipName;
+		this.type = shipType;
+		this.ability = shipAbility;
 		this.crew = [];
 	}
 	missionStatement() {
@@ -38,13 +43,16 @@ class Ship {
 		if (this.crew.length === 0) {
 			return "Can't perform a mission yet.";
 		} else {
-			return this.ability;
+			return this.ability; // target this.ability because the ability is in relation to the ship rather than the crew.  had written if statements for each ship - redundant!  all that is needed is this.ability that will pull for ship being passed through.
 		}
 	}
 }
 
 let mav = new Ship("Mars Ascent Vehicle", "MAV", "Ascend into low orbit");
+crewMember1.enterShip(mav);
+
 let hermes = new Ship("Hermes", "Main Ship", "Interplanetary Space Travel");
+crewMember2.enterShip(hermes);
 
 //     Make sure Crew Members can enter Ships
 
